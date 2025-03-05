@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="auth" />
         <module name="eureka" />
+        <module name="gateway" />
       </profile>
     </annotationProcessing>
   </component>
