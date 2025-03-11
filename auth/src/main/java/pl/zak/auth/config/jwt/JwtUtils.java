@@ -26,17 +26,17 @@ public class JwtUtils {
 
     public String generateToken(Authentication authentication) {
         return Jwts.builder()
-                .subject(authentication.getName()) // Zmiana składni w jjwt-0.12.1
+                .subject(authentication.getName())
                 .claim("role", authentication.getAuthorities())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + JwtConstants.JWT_EXPIRATION))
-                .signWith(JwtConstants.JWT_SECRET) // Teraz wymagany SecretKey
+                .signWith(JwtConstants.JWT_SECRET)
                 .compact();
     }
 
     public String generateToken(Users users) {
         return Jwts.builder()
-                .subject(users.getUsername()) // Zmiana składni w jjwt-0.12.1
+                .subject(users.getUsername())
                 .claim("role", users.getRole())
                 .claim("email", users.getEmail())
                 .claim("id", users.getId())
@@ -51,7 +51,7 @@ public class JwtUtils {
 
     public List<String> getRolesFromJWT(String token) {
         Claims claims = getJwtParserInstance()
-                .parseSignedClaims(token) // Nowa metoda w jjwt-0.12.1
+                .parseSignedClaims(token)
                 .getPayload();
 
         return Collections.singletonList(claims.get("role", String.class));
