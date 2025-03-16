@@ -1,17 +1,25 @@
 <div class="background">
 </div>
+<form [formGroup]="loginForm" (ngSubmit)="onLogin()">
 <div class="login-container fixed-center position-fixed translate50 padding4">
   <h1 class="center padding4" style="--scale: 2">HERE IS FULL GRIP</h1>
-  <div class="padding2 flex relative">
-    <input type="text" class="input margin2 " placeholder="">
+  <div class="padding3 flex relative">
+    <input type="text" formControlName="email" class="input margin2" placeholder="">
     <label class="label absolute">Email</label>
+    <label class="input-info absolute" *ngIf="email?.invalid && email?.touched">
+      {{ getEmailErrorMessage() }}
+    </label>
   </div>
-  <div class="padding2 flex relative input-animation">
-    <input type="password" class="input margin2 " placeholder="">
+  <div class="padding3 flex relative">
+    <input type="password" formControlName="password" class="input margin2" placeholder="">
     <label class="label absolute">Password</label>
+    <label class="input-info absolute" *ngIf="password?.invalid && password?.touched">
+      {{ getPasswordErrorMessage() }}
+    </label>
   </div>
   <div class="padding2 flex relative">
-    <button type="submit" class="input margin2 cta-button" placeholder="">LOGIN</button>
+    <button type="submit" class="input margin2 cta-button" [disabled]="loginForm.invalid" placeholder="">LOGIN</button>
   </div>
 </div>
+</form>
 

@@ -11,7 +11,7 @@
   --color30: hsl(31, 80%, 30%);
   --color90: hsl(31, 80%, 90%);
   --color100: hsl(31, 80%, 100%);
-  --color2: hsl(40, 6%, 72%);
+  --color2: hsl(0, 0%, 76%);
   --color2RGBA: 194, 190, 182;
   --accent: hsl(31, 80%, 70%);
   --ff: "Noto Sans JP", serif;
@@ -29,11 +29,13 @@
   --spacing7: 160px;
   --90: 90%;
   --100: 100%;
-  --label-translate-y: -32px;
-  --label-translate-y-back: -12px;
+  --label-translate-y: -42px;
+  --label-translate-y-back: -13px;
   --transition03: 0.3s;
 }
-
+input, label {
+  font-family: inherit;
+}
 html {
   scroll-behavior: smooth;
 }
@@ -162,9 +164,15 @@ a:hover {
 }
 
 .input + label {
-  top: 35px;
+  top: 45px;
   left: 25px;
   pointer-events: none;
+}
+
+.input-info {
+  top: 62px;
+  left: 15px;
+  color: red;
 }
 
 .input:focus + .label,
@@ -196,10 +204,12 @@ a:hover {
   @include transitionForButton;
 }
 
-//.input:not(:placeholder-shown) + label {
-//  transform: translateY(var(--label-translate-y));
-//  transition: 0.3s;
-//}
+.cta-button:disabled {
+  background-color: var(--color2);
+  border: none;
+  color: white !important;
+  cursor: default;
+}
 
 .background {
   width: 100vw;
@@ -217,107 +227,11 @@ a:hover {
   min-width: 300px;
   max-width: 100%;
   background-color: rgba(var(--color2RGBA), 50%);
+  border-right: 1px solid red;
+  border-bottom: 1px solid red;
+  border-bottom-right-radius: 10px;
 }
 
-//.title {
-//  display: inline-block;
-//  padding: 1.15em;
-//}
-//
-//.rootStyle {
-//  min-width: 100vh;
-//  min-height: 100vh;
-//}
-//
-//.center-container {
-//  background-color: rgba(255, 255, 255, 0.5);
-//  position: fixed;
-//  top: 50%;
-//  left: 50%;
-//  translate: -50% -50%;
-//  width: min(50%, 400px);
-//  box-sizing: content-box;
-//
-//  border-end-end-radius: 25px;
-//  border-right: 1px solid red;
-//  border-bottom: 1px solid red;
-//}
-//
-//.flex-center-column {
-//  display: flex;
-//  align-items: center;
-//  flex-direction: column;
-//  padding: 15px;
-//  box-sizing: content-box;
-//}
-//
-//.input-container {
-//  width: 100%;
-//  @include flex-all-centered;
-//  padding: 8px 20px;
-//  position: relative;
-//  box-sizing: border-box;
-//}
-//
-//.inputForm {
-//  width: 100%;
-//  height: 1.9em;
-//  padding: 10px;
-//  @include no-border;
-//  outline: none;
-//}
-//
-//.inputForm:focus {
-//  box-shadow: inset -7px -7px 0px -5.5px red;
-//  @include input-transition;
-//}
-//
-//.inputForm:not(:focus) {
-//  box-shadow: none;
-//  @include input-transition;
-//}
-//
-//.cta-button {
-//  @include no-border;
-//  width: 90%;
-//  margin-top: 1.2em;
-//  cursor: pointer;
-//  padding: 10px;
-//}
-//
-//.red-button {
-//  @include red-button;
-//}
-//
-//.red-button:hover {
-//  background-color: white;
-//  border: red;
-//  color: black;
-//  box-shadow: inset 2px 2px 0px red,
-//  inset -2px -2px 0px red;
-//  @include input-transition;
-//}
-//
-//.red-button:not(:focus) {
-//  @include input-transition;
-//}
-//
-//.placeholder {
-//  position: absolute;
-//  top: 20px;
-//  left: 30px;
-//  color: #626262;
-//  pointer-events: none;
-//  transition: 0.3s;
-//  //background-color: white;
-//}
-//
-//.inputForm:focus + .placeholder, .inputForm:not(:placeholder-shown)+label {
-//  top: -5px;
-//  color: #626262;
-//}
-//
-//
 @media(max-width: 576px) {
   .login-container {
     width: 100%;
