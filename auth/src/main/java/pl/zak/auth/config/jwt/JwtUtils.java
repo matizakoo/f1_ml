@@ -3,7 +3,6 @@ package pl.zak.auth.config.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +13,6 @@ import org.springframework.stereotype.Component;
 import pl.zak.auth.dto.UserCredentialsDTO;
 import pl.zak.auth.entity.Users;
 
-import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Component
@@ -37,7 +34,7 @@ public class JwtUtils {
     public String generateToken(Users users) {
         return Jwts.builder()
                 .subject(users.getUsername())
-                .claim("role", users.getRole())
+                .claim("role", users.getUserRole())
                 .claim("email", users.getEmail())
                 .claim("id", users.getId())
                 .claim("username", users.getUsername())

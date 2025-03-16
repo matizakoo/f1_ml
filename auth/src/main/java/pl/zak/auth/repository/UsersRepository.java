@@ -13,11 +13,11 @@ public interface UsersRepository extends JpaRepository<Users, Integer> {
     Users findByUsername(String username);
     Optional<Users> findByEmail(String email);
 
-    @Query(value = "select u.* from `running-service`.users as u where u.email = ?1 and u.role = 'GUEST'", nativeQuery = true)
+    @Query(value = "select u.* from `running-service`.users as u where u.email = ?1 and u.user_role = 'GUEST'", nativeQuery = true)
     Users findGuestByEmail(String email);
     Optional<Users> findById(Integer id);
-    Optional<Users> findByEmailAndRoleNot(String email, ERole eRole);
+    Optional<Users> findByEmailAndUserRoleNot(String email, ERole eRole);
     default Optional<Users> findByEmailWhoIsNotGuest(String email) {
-        return findByEmailAndRoleNot(email, ERole.GUEST);
+        return findByEmailAndUserRoleNot(email, ERole.GUEST);
     }
 }

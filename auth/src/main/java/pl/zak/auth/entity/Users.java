@@ -25,8 +25,9 @@ public class Users implements UserDetails {
     @Column(name = "email")
     private String email;
     private String password;
+    @Column(name = "user_role")
     @Enumerated(EnumType.STRING)
-    private ERole role;
+    private ERole userRole;
     private boolean enabled;
     private String phone;
 

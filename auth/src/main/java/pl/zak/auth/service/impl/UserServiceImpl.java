@@ -2,11 +2,9 @@ package pl.zak.auth.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import org.mapstruct.Mapper;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.zak.auth.dto.PasswordDTO;
 import pl.zak.auth.dto.UserCredentialsDTO;
 import pl.zak.auth.dto.UsersDTO;
 import pl.zak.auth.entity.Users;
@@ -22,7 +20,7 @@ public class UserServiceImpl implements UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     @Override
     public Users getUserByEmail(String email) throws Exception {
-        return usersRepository.findByEmailAndRoleNot(email, ERole.GUEST).orElseThrow(
+        return usersRepository.findByEmailAndUserRoleNot(email, ERole.GUEST).orElseThrow(
                 () -> new Exception("Nie odnaleziono osoby o takim emailu"));
     }
 
@@ -60,7 +58,7 @@ public class UserServiceImpl implements UserService {
                 .surname(usersDTO.getSurname().toUpperCase())
                 .phone(usersDTO.getPhone())
                 .password(bCryptPasswordEncoder.encode(usersDTO.getPassword()))
-                .role(ERole.USER)
+                .userRole(ERole.USER)
                 .enabled(true)
                 .build();
         usersRepository.save(users);

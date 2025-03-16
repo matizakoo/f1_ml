@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  eureka-server:
+    image: "openjdk:17"
+    working_dir: /app
+    volumes:
+      - "D:/Praca magisterska/f1_ml/eureka:/app"
+    ports:
+      - "8761:8761"
+    command: [ "java", "-jar", "target/eureka-0.0.1-SNAPSHOT.jar" ]
+    networks:
+      - microservices-network
+
+networks:
+  microservices-network:
+    external: true

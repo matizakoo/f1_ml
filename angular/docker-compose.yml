@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  frontend:
+    image: "node:18-alpine"
+    working_dir: /app
+    volumes:
+      - "D:/Praca magisterska/f1_ml/angular:/app"
+    ports:
+      - "4200:4200"
+    entrypoint: [ "/bin/sh", "-c" ]
+    command:
+      - "rm -rf node_modules package-lock.json && npm cache clean --force && npm install && npm start"
+    depends_on:
+      - auth-service
+    networks:
+      - microservices-network

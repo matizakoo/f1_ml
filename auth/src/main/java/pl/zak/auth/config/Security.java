@@ -32,6 +32,7 @@ public class Security implements WebMvcConfigurer {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+                                .requestMatchers("/test").permitAll()
                                 .requestMatchers("/swagger-ui/**", "/v3/**").permitAll()
                                 .requestMatchers(ControllerEndpoints.GUEST + "/**").permitAll()
                                 .anyRequest().authenticated()

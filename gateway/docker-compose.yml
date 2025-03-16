@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  gateway-server:
+    image: "openjdk:17"
+    working_dir: /app
+    volumes:
+      - "D:/Praca magisterska/f1_ml/gateway:/app"
+    ports:
+      - "8800:8800"
+    environment:
+      SPRING_APPLICATION_NAME: gateway-server
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+    command: [ "java", "-jar", "target/gateway-0.0.1-SNAPSHOT.jar" ]
+    networks:
+      - microservices-network
+
+networks:
+  microservices-network:
+    external: true
