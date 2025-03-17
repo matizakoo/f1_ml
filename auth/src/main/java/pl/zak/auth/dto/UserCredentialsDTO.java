@@ -20,7 +20,7 @@ public class UserCredentialsDTO {
     @Email
     private String email;
     @NotNull
-    @Size(min = 8, max = 31)
+    @Size(min = 6, max = 31)
     @Pattern(regexp = ValidatorUtils.NO_WHITE_SPACE, message = "Cannot include whitespaces")
     private String password;
 }

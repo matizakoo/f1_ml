@@ -20,7 +20,8 @@ public class UserServiceImpl implements UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     @Override
     public Users getUserByEmail(String email) throws Exception {
-        return usersRepository.findByEmailAndUserRoleNot(email, ERole.GUEST).orElseThrow(
+        System.out.println(usersRepository.findAll());
+        return usersRepository.findByEmail(email).orElseThrow(
                 () -> new Exception("Nie odnaleziono osoby o takim emailu"));
     }
 

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {LoginService} from "./login.service";
+import {LoginService} from "./service/login.service";
+import {UserCredentialsDTO} from "../ainterfaces/user-credentials-dto";
 
 @Component({
   selector: 'app-login',
@@ -49,8 +50,12 @@ export class LoginComponent {
   onLogin() {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
+      const userCredentails: UserCredentialsDTO = {
+        email: this.email?.value,
+        password: this.password?.value
+      }
 
-      this.loginService.login(email, password).subscribe({
+      this.loginService.login(userCredentails).subscribe({
         next: (response) => {
           console.log('Zalogowano!', response);
         },

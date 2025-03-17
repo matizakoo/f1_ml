@@ -12,7 +12,7 @@ spring:
         - id: auth
           uri: lb://auth
           predicates:
-            - Path=/auth/**
+            - Path=/auth-service/**
 
 server:
   port: 8800

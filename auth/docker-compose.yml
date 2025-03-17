@@ -9,7 +9,7 @@ services:
       MYSQL_PASSWORD: 'password'
       MYSQL_ROOT_PASSWORD: 'password'
     ports:
-      - '3307:3306'
+      - '3306:3306'
     expose:
       - '3306'
     volumes:
@@ -24,14 +24,15 @@ services:
       - "D:/Praca magisterska/f1_ml/auth:/app"
     ports:
       - "8081:8081"
+      - "5081:5081"
     environment:
       SPRING_APPLICATION_NAME: auth-service
       SPRING_PROFILES_ACTIVE: docker
-      SPRING_DATASOURCE_URL: jdbc:mysql://auth-db:3306/auth-db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/auth?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: password
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
-    command: ["sh", "-c", "sleep 10 && java -jar target/auth-0.0.1-SNAPSHOT.jar"]
+    command: ["sh", "-c", "sleep 10 && mvn -T 4 clean install java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5081 -jar target/auth-0.0.1-SNAPSHOT.jar"]
     networks:
       - microservices-network
     depends_on:
