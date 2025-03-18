@@ -8,8 +8,9 @@ services:
       MYSQL_USER: 'root'
       MYSQL_PASSWORD: 'password'
       MYSQL_ROOT_PASSWORD: 'password'
+    command: --default-authentication-plugin=mysql_native_password --ssl=0 --skip-ssl
     ports:
-      - '3306:3306'
+      - '3308:3306'
     expose:
       - '3306'
     volumes:
@@ -32,7 +33,7 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: password
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
-    command: ["sh", "-c", "sleep 10 && mvn -T 4 clean install java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5081 -jar target/auth-0.0.1-SNAPSHOT.jar"]
+    command: ["sh", "-c", "sleep 10 && java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5081 -jar target/auth-0.0.1-SNAPSHOT.jar"]
     networks:
       - microservices-network
     depends_on:

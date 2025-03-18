@@ -15,8 +15,6 @@ import java.time.LocalTime;
 public class UsersDTO {
     private Integer id;
     @NotNull
-    @Email
-    @Min(5)
     private String email;
     @Size(min = 3, max = 25)
     private String username;

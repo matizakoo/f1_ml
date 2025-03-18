@@ -27,7 +27,7 @@ public class AuthController {
     }
 
     @PostMapping(value = ControllerEndpoints.REGISTER)
-    public ResponseEntity<?> register(@RequestBody @Valid UsersDTO userDTO) throws Exception {
+    public ResponseEntity<?> register(@RequestBody UsersDTO userDTO) throws Exception {
         userService.registerUser(userDTO);
         return ResponseHelper.response200("Zarejestrowano");
     }

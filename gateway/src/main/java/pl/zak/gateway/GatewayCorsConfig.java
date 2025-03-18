@@ -12,7 +12,8 @@ public class GatewayCorsConfig {
     public CorsWebFilter corsWebFilter() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://localhost:4200"); // lub "*", jeśli testowo
+//        config.addAllowedOrigin("http://localhost:4200"); // lub "*", jeśli testowo
+        config.addAllowedOrigin("*"); // lub "*", jeśli testowo
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
 
