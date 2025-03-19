@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {LoginService} from "./service/login.service";
 import {UserCredentialsDTO} from "../ainterfaces/user-credentials-dto";
+import {JwtService} from "../uniqueServices/jwt.service";
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   loginError: string = '';
 
-  constructor(private fb: FormBuilder, private loginService: LoginService) {
+  constructor(private fb: FormBuilder, private loginService: LoginService, private jwt: JwtService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
@@ -57,11 +58,15 @@ export class LoginComponent {
 
       this.loginService.login(userCredentails).subscribe({
         next: (response) => {
-          console.log('Zalogowano!', response);
+          localStorage.setItem('auth-token', response.token);
+          const decodedToken = this.jwt.decodeToken(response.token);
+          if (decodedToken) {
+            localStorage.setItem('username', decodedToken.username);
+            localStorage.setItem('email', decodedToken.email);
+          }
         },
         error: (err) => {
           console.error('Błąd logowania', err);
-          this.loginError = 'Niepoprawny email lub hasło';
         }
       });
     }

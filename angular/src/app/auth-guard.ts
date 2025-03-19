@@ -11,14 +11,14 @@ export class AuthGuard {
   canActivate: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree => {
     const isLoggedIn = this.authService.isLoggedIn();
 
-    if (isLoggedIn && state.url.includes('/auth/login')) {
-      // Jeśli użytkownik jest zalogowany i próbuje dostać się do /auth/login, przekieruj na stronę główną
+    if (isLoggedIn && state.url.includes('/login')) {
+      console.log('zalogowany');
       return this.router.parseUrl('/app');
     } else if (!isLoggedIn && !state.url.includes('/login')) {
-      // Jeśli użytkownik nie jest zalogowany i próbuje dostać się do innej strony niż /auth/login
+      console.log('nieezalogowany zalogowany');
       return this.router.parseUrl('/login');
     }
-
-    return true;  // Pozwól na przejście do strony, jeśli powyższe warunki nie są spełnione
+    console.log('else')
+    return true;
   }
 }

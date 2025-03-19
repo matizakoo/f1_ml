@@ -16,7 +16,6 @@ export class LoginService {
 
   login(userCredentials: UserCredentialsDTO): Observable<any> {
     console.log('mati: ', this.apiUrl);
-    // return this.http.post<any>(this.apiUrl + "/guest/login", userCredentials, {
     return this.http.post<any>(this.apiUrl + "/guest/login", userCredentials, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     });
