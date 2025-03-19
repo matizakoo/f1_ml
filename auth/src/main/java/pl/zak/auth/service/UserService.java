@@ -4,10 +4,12 @@ import pl.zak.auth.dto.UserCredentialsDTO;
 import pl.zak.auth.dto.UsersDTO;
 import pl.zak.auth.entity.Users;
 
+import java.util.Optional;
+
 public interface UserService {
     Users getUserByEmail(String email) throws Exception;
     void deleteAccount(Integer id);
-    Users getGuestByEmail(String email);
+    Optional<Users> getGuestByEmail(String email);
     boolean isUserValid(UserCredentialsDTO userCredentialsDTO) throws Exception;
     boolean isPasswordValid(String usersPassword, String dtoPassword);
     void saveNewUser(UsersDTO usersDTO);

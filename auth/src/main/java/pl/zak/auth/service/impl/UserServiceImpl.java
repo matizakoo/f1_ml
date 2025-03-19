@@ -13,11 +13,14 @@ import pl.zak.auth.exception.UserExistsException;
 import pl.zak.auth.repository.UsersRepository;
 import pl.zak.auth.service.UserService;
 
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UsersRepository usersRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Override
     public Users getUserByEmail(String email) throws Exception {
         System.out.println(usersRepository.findAll());
@@ -32,8 +35,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Users getGuestByEmail(String email) {
-        return usersRepository.findGuestByEmail(email);
+    public Optional<Users> getGuestByEmail(String email) {
+        return usersRepository.findByEmail(email);
     }
 
     @Override
@@ -44,7 +47,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isPasswordValid(String usersPassword, String dtoPassword) {
-        if(bCryptPasswordEncoder.matches(dtoPassword, usersPassword)) {
+        if (bCryptPasswordEncoder.matches(dtoPassword, usersPassword)) {
             return true;
         }
         throw new RuntimeException("Wprowadzono nieprawidłowe haslo");
@@ -74,23 +77,13 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void registerUser(UsersDTO usersDTO) {
-        Users guestUser = getGuestByEmail(usersDTO.getEmail());
-        System.out.println("null? " + guestUser != null);
-        if (guestUser != null){
+        Optional<Users> guestUser = getGuestByEmail(usersDTO.getEmail());
+        if (!guestUser.isPresent()) {
             saveNewUser(usersDTO);
         } else {
-            try {
-                Users users = getUserByEmail(usersDTO.getEmail());
-                if (users != null)
-                    throw new UserExistsException("Użytkownik o takim emailu jest już w bazie");
-            } catch (UsernameNotFoundException e) {
-                saveNewUser(usersDTO);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+            throw new UserExistsException("Użytkownik o takim emailu jest już w bazie");
         }
     }
-
 
 
     @Override
