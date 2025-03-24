@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,17 +39,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        String authHeader = request.getHeader("Authorization");
+        String authHeader = request.getHeader("auth-token");
         if (authHeader == null || authHeader.startsWith(CustomAuthorizationHeader.AUTHORIZATION_HEADER + " ")) {
             filterChain.doFilter(request, response);
             return;
         }
-        authHeader = authHeader.substring(7);
         try {
             if (jwtUtils.validateToken(authHeader)) {
                 List<String> roles = jwtUtils.getRolesFromJWT(authHeader);
                 Set<GrantedAuthority> authorities = roles.stream()
-                        .map(SimpleGrantedAuthority::new)
+                        .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                         .collect(Collectors.toSet());
                 String username = jwtUtils.getUsernameFromJWT(authHeader);
                 UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
@@ -60,6 +60,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         );
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

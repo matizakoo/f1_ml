@@ -17,8 +17,9 @@ public class GatewayCorsConfig {
         config.addAllowedOrigin("http://localhost:4200");
         config.addAllowedOriginPattern("*");
         config.addAllowedHeader("*");
+        config.addAllowedHeader("auth-token");
         config.addAllowedMethod("*");
-        config.setExposedHeaders(List.of("Authroization", "Content-Type"));
+        config.setExposedHeaders(List.of("Authroization", "Content-Type", "auth-token"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);

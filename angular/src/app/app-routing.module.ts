@@ -7,8 +7,9 @@ const routes: Routes = [
   {
     path: '', component: AmaincontainerComponent, canActivate: [AuthGuard],
     children: [
+      { path: '', redirectTo: 'app', pathMatch: 'full' },
       {
-        path: '', loadChildren: () => import('./components/post/post.module').then(module => module.PostModule)
+        path: 'app', loadChildren: () => import('./components/post/post.module').then(module => module.PostModule)
       }
     ]
   },

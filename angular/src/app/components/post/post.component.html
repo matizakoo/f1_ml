@@ -1,1 +1,23 @@
-<p>post works!</p>
+<div class="margin4">
+  <div class="width100">
+    <div class="padding2  center">
+      <input id="topic" [(ngModel)]="topic" placeholder="topic" class="width100">
+      <button type="submit" class="input cta-button width100" placeholder="" (click)="addPost()">ADD NEW POST</button>
+    </div>
+  </div>
+</div>
+
+<div class="post-content transition03 padding4 margin-top border-radius" *ngFor="let post of posts"
+     (click)="openPopup(post.id)"
+     style="cursor: pointer;">
+  <div class="padding-author font1" style="color: red">
+    {{post.author.surname}}
+  </div>
+  <div class="padding-author font2" style="color: red">
+    {{post.topic}}
+  </div>
+</div>
+
+<app-post-modal *ngIf="showPopup"
+  [postId]="selectedPostId"
+  (close)="closePopup()"></app-post-modal>

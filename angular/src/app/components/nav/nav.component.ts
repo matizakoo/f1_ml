@@ -6,5 +6,8 @@ import { Component } from '@angular/core';
   styleUrl: './nav.component.scss'
 })
 export class NavComponent {
-
+  public email: string;
+  constructor() {
+    this.email = localStorage.getItem('email') ?? '';
+  }
 }

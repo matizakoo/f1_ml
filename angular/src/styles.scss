@@ -20,6 +20,10 @@
   --p: 1rem/1.5em var(--ff);
   --h1: 600 3rem/1.2em var(ff3);
   --h2: 600 2rem/1.2em var(--ff2);
+  --font-size: 1.5rem;
+  --font-size2: 0.7rem;
+  --font-size3: 2.5rem;
+  --max-width: 2.5vw;
   --spacing1: 4px;
   --spacing2: 8px;
   --spacing3: 16px;
@@ -35,6 +39,12 @@
 }
 input, label {
   font-family: inherit;
+}
+.font1 {
+  font-size: var(--font-size);
+}
+.font2 {
+  font-size: var(--font-size3);
 }
 html {
   scroll-behavior: smooth;
@@ -66,6 +76,9 @@ a:hover {
 .absolute {
   position: absolute;
 }
+.transition03 {
+  transition: var(--transition03);
+}
 .relative {
   position: relative;
 }
@@ -81,6 +94,9 @@ a:hover {
   justify-content: center;
   gap: var(--spacing4);
   flex-wrap: wrap;
+}
+.flex-left {
+  align-items: start !important;
 }
 .flex > * {
   flex: 0 1 auto;
@@ -110,6 +126,9 @@ a:hover {
 .padding7 {
   padding: var(--spacing7) 0;
 }
+.padding-author {
+  padding: var(--spacing1) var(--spacing4);
+}
 .margin1 {
   margin: var(--spacing1) auto;
 }
@@ -130,6 +149,9 @@ a:hover {
 }
 .margin7 {
   margin: var(--spacing7) auto;
+}
+.margin-top {
+  margin-top: var(--spacing2);
 }
 .margin-auto {
   margin-left: auto;
@@ -221,6 +243,12 @@ a:hover {
   z-index: -1;
 }
 
+.border-radius {
+  border-right: 1px solid red;
+  border-bottom: 1px solid red;
+  border-bottom-right-radius: 10px;
+}
+
 .login-container {
   flex: 1;
   width: auto;
@@ -231,7 +259,56 @@ a:hover {
   border-bottom: 1px solid red;
   border-bottom-right-radius: 10px;
 }
+.width-auto {
+  width: auto;
+}
+.nav-container {
+  background-color: cadetblue;
+}
 
+.content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto;
+}
+
+.content > ul {
+  display: flex;
+  justify-content: flex-end;
+  list-style: none;
+  padding: var(--font-size);
+  gap: var(--spacing5);
+  font-size: var(--font-size);
+  flex-grow: 1;
+}
+
+ul li:first-child {
+  margin-right: auto;
+}
+
+.content > ul > li {
+  list-style: none;
+}
+.post-content {
+  box-sizing: border-box;
+  height: auto;
+}
+.post-content:hover {
+  transform: scale(1.02);
+  cursor: pointer;
+}
+.font1, .font2 {
+  transition: font-size 0.3s ease-in-out;
+}
+.opacity100 {
+ background-color: rgba(194, 190, 182, 100%);
+}
+.text-in-one-line {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 @media(max-width: 576px) {
   .login-container {
     width: 100%;

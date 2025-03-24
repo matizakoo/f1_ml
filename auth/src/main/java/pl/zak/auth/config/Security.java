@@ -19,28 +19,20 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import pl.zak.auth.config.jwt.JwtAuthenticationFilter;
-import pl.zak.auth.config.jwt.JwtUtils;
 import pl.zak.auth.repository.UsersRepository;
 import pl.zak.auth.service.CustomUserDetailsService;
 import pl.zak.auth.utils.ControllerEndpoints;
 
-import java.util.Arrays;
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
 public class Security implements WebMvcConfigurer {
     private final UsersRepository usersRepository;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
     @Bean
     public SecurityFilterChain securityFilterChainOne(HttpSecurity http) throws Exception {
         http
@@ -49,49 +41,14 @@ public class Security implements WebMvcConfigurer {
                                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                                 .requestMatchers("/swagger-ui/**", "/v3/**").permitAll()
                                 .requestMatchers(ControllerEndpoints.GUEST + "/**").permitAll()
+                                .requestMatchers(ControllerEndpoints.USER + "/**").authenticated()
                                 .anyRequest().authenticated()
                 )
-//                .cors(cors -> cors.configurationSource(request -> {
-//                    CorsConfiguration configuration = new CorsConfiguration();
-//                    configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
-//                    configuration.setAllowedHeaders(Arrays.asList("Origin", "Access-Control-Allow-Origin", "Content-Type",
-//                            "Accept", "Authorization", "auth-token", "Origin, Accept", "X-Requested-With",
-//                            "Access-Control-Request-Method", "Access-Control-Request-Headers", "application/json"));
-//                    configuration.setExposedHeaders(Arrays.asList("Origin", "Authorization", "Content-Type", "Accept", "auth-token",
-//                            "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials", "auth-token"));
-//                    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-//                    return configuration;
-//                }))
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(new JwtAuthenticationFilter(
-                        new JwtUtils(),
-                        new CustomUserDetailsService(usersRepository)), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-
-//    @Bean
-//    public CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration configuration = new CorsConfiguration();
-//        CorsConfiguration corsConfiguration = new CorsConfiguration();
-//        corsConfiguration.setAllowCredentials(true);
-////        corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
-//        corsConfiguration.setAllowedOrigins(Arrays.asList("*"));
-//        corsConfiguration.setAllowedHeaders(Arrays.asList("Origin", "Access-Control-Allow-Origin", "Content-Type",
-//                "Accept", "auth-token", "Origin, Accept", "X-Requested-With",
-//                "Access-Control-Request-Method", "Access-Control-Request-Headers", "application/json"));
-//        corsConfiguration.setExposedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "auth-token",
-//                "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials", "auth-token"));
-//        corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//    }
-
-//    @Bean
-//    public org.springframework.web.filter.CorsFilter corsFilter() {
-//        return new CorsFilter(corsConfigurationSource());
-//    }
 
     @Bean
     public AuthenticationManager authenticationManager(CustomUserDetailsService userDetailsService) {

@@ -3,31 +3,24 @@ package pl.zak.auth.config.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-import pl.zak.auth.dto.UserCredentialsDTO;
 import pl.zak.auth.entity.Users;
-
 import java.util.*;
 
+import static pl.zak.auth.config.jwt.JwtConstants.JWT_SECRET;
+
 @Component
+@AllArgsConstructor
 public class JwtUtils {
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
     public String generateToken(Authentication authentication) {
         return Jwts.builder()
                 .subject(authentication.getName())
                 .claim("role", authentication.getAuthorities())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + JwtConstants.JWT_EXPIRATION))
-                .signWith(JwtConstants.JWT_SECRET)
+                .signWith(JWT_SECRET)
                 .compact();
     }
 
@@ -42,7 +35,7 @@ public class JwtUtils {
                 .claim("phone", users.getPhone())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + JwtConstants.JWT_EXPIRATION))
-                .signWith(JwtConstants.JWT_SECRET, JwtConstants.JWT_ALGORITHM)
+                .signWith(JWT_SECRET)
                 .compact();
     }
 
@@ -56,40 +49,24 @@ public class JwtUtils {
 
     public String getUsernameFromJWT(String token) {
         Claims claims = getJwtParserInstance()
-                .parseSignedClaims(token) // Nowa metoda w jjwt-0.12.1
+                .parseSignedClaims(token)
                 .getPayload();
         return claims.get("email", String.class);
     }
 
     public JwtParser getJwtParserInstance() {
         return Jwts.parser()
-                .verifyWith(JwtConstants.JWT_SECRET) // `setSigningKey()` zastąpiono w jjwt-0.12.1
+                .verifyWith(JWT_SECRET)
                 .build();
     }
 
     public boolean validateToken(String token) throws Exception {
         try {
             getJwtParserInstance()
-                    .parseSignedClaims(token); // Nowa metoda w jjwt-0.12.1
+                    .parseSignedClaims(token);
             return true;
         } catch (Exception e) {
             throw new Exception("JWT problem expired or incorrect", e);
         }
-    }
-
-    public String getJwtFromCookie(HttpServletRequest request) {
-        if (request.getCookies() == null) return null;
-
-        return Arrays.stream(request.getCookies())
-                .filter(cookie -> CustomAuthorizationHeader.AUTHORIZATION_HEADER.equals(cookie.getName()))
-                .map(Cookie::getValue)
-                .findFirst()
-                .orElse(null);
-    }
-
-    public Authentication getAuthentication(UserCredentialsDTO userCredentialsDTO) {
-        return authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(userCredentialsDTO.getEmail(),
-                        userCredentialsDTO.getPassword()));
     }
 }

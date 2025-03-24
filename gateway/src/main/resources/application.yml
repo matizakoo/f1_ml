@@ -13,6 +13,8 @@ spring:
           uri: lb://auth
           predicates:
             - Path=/auth-service/**
+          filters:
+            - AddRequestHeader=auth-token, {auth-token}
 
 server:
   port: 8800

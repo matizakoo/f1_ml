@@ -18,6 +18,7 @@ public class LoggingGlobalFilter implements GlobalFilter, Ordered {
         String requestPath = exchange.getRequest().getURI().toString();
         String method = exchange.getRequest().toString();
         logger.info("Request przechodzi przez gateway: [{}] {}", method, requestPath);
+        logger.info("auth-token: {}", exchange.getRequest().getHeaders().getFirst("auth-token"));
 
         return chain.filter(exchange).then(Mono.fromRunnable(() -> {
             int statusCode = exchange.getResponse().getStatusCode().value();

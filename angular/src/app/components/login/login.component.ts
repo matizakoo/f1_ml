@@ -64,6 +64,8 @@ export class LoginComponent {
             localStorage.setItem('username', decodedToken.username);
             localStorage.setItem('email', decodedToken.email);
           }
+
+          window.location.reload();
         },
         error: (err) => {
           console.error('Błąd logowania', err);
