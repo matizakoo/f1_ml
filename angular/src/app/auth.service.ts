@@ -8,9 +8,7 @@ export class AuthService {
   constructor() { }
 
   isLoggedIn(): boolean {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      return !!localStorage.getItem('auth-token');
-    }
-    return false;
+    const token = localStorage.getItem('auth-token');
+    return !!token && token.length > 0;
   }
 }

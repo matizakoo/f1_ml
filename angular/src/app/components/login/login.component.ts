@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {LoginService} from "./service/login.service";
 import {UserCredentialsDTO} from "../ainterfaces/user-credentials-dto";
 import {JwtService} from "../uniqueServices/jwt.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   loginError: string = '';
 
-  constructor(private fb: FormBuilder, private loginService: LoginService, private jwt: JwtService) {
+  constructor(private fb: FormBuilder, private loginService: LoginService, private jwt: JwtService, private router: Router) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
@@ -66,6 +67,7 @@ export class LoginComponent {
           }
 
           window.location.reload();
+          this.router.navigate(['/app']);
         },
         error: (err) => {
           console.error('Błąd logowania', err);

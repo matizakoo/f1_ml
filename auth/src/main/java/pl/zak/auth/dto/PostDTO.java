@@ -15,4 +15,5 @@ public class PostDTO {
     private String topic;
     private List<UsersDTO> allowedUsers;
     private UsersDTO author;
+    private List<CommentDTO> comments;
 }

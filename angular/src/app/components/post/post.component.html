@@ -11,13 +11,14 @@
      (click)="openPopup(post.id)"
      style="cursor: pointer;">
   <div class="padding-author font1" style="color: red">
-    {{post.author.surname}}
+    {{post.author.username}}
   </div>
   <div class="padding-author font2" style="color: red">
     {{post.topic}}
   </div>
 </div>
 
-<app-post-modal *ngIf="showPopup"
-  [postId]="selectedPostId"
-  (close)="closePopup()"></app-post-modal>
+<!--<app-post-modal *ngIf="showPopup"-->
+<!--  [postId]="selectedPostId"-->
+<!--  (close)="closePopup()"></app-post-modal>-->
+<app-post-modal *ngIf="showPopup" [postId]="selectedPostId" (close)="closePopup()"></app-post-modal>

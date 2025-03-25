@@ -23,7 +23,7 @@ export class PostService {
       topic: topic,
       email: email
     };
-    return this.http.post(this.apiUrl + '/user/post', null, { params, headers });
+    return this.http.post(this.apiUrl + '/user/post', null, {params, headers});
   }
 
   getAllPosts(): Observable<PostDTO[]> {
@@ -31,5 +31,28 @@ export class PostService {
       'auth-token': localStorage.getItem('auth-token') || ''
     };
     return this.http.get<PostDTO[]>(`${this.apiUrl}/user/post/all`, {headers});
+  }
+
+  getSinglePost(id: number) {
+    const headers = {
+      'auth-token': localStorage.getItem('auth-token') || ''
+    };
+    const params = {
+      id: id,
+    };
+    return this.http.get<PostDTO>(`${this.apiUrl}/user/post`, {params, headers});
+  }
+
+  addNewComment(comment: string, postId: number) {
+    const headers = {
+      'auth-token': localStorage.getItem('auth-token') || ''
+    };
+
+    const params = {
+      email: localStorage.getItem('email') || '',
+      comment: comment,
+      postId: postId
+    };
+    return this.http.post(this.apiUrl + '/user/post/comment', null, {params, headers});
   }
 }

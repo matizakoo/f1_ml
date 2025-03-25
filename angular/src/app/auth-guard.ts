@@ -8,8 +8,9 @@ import {AuthService} from "./auth.service";
 export class AuthGuard {
   constructor(private authService: AuthService, private router: Router) {}
 
-  canActivate: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree => {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree {
     const isLoggedIn = this.authService.isLoggedIn();
+    console.log('AuthGuard isLoggedIn:', isLoggedIn);
 
     if (isLoggedIn) {
       return true;

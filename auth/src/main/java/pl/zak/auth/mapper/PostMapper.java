@@ -13,6 +13,8 @@ import java.util.List;
 public interface PostMapper {
     @Mapping(source = "id", target = "id")
     @Mapping(source = "topic", target = "topic")
+    @Mapping(source = "author", target = "author")
+    @Mapping(source = "comments", target = "comments")
     PostDTO mapToDTO(PostEntity postEntity);
     List<PostDTO> mapListOfPostToListPostDTO(List<PostEntity> postEntities);
 }

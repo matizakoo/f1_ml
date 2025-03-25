@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.PackagePrivate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,4 +30,6 @@ public class PostEntity {
     @ManyToOne
     @JoinColumn(name = "author_id")
     private Users author;
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CommentEntity> comments = new ArrayList<>();
 }

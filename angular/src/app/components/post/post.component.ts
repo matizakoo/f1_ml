@@ -1,17 +1,19 @@
 import {Component, OnInit} from '@angular/core';
 import {PostService} from "./service/post.service";
 import {PostDTO} from "../models/post-dto";
+import {ClosableModalBase} from "../uniqueServices/closable-modal-base";
 
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
   styleUrl: './post.component.scss'
 })
-export class PostComponent implements OnInit{
+export class PostComponent extends ClosableModalBase implements OnInit{
   topic = '';
   posts: PostDTO[] = [];
 
   constructor(private postService: PostService) {
+    super();
   }
 
   ngOnInit(): void {
@@ -19,16 +21,17 @@ export class PostComponent implements OnInit{
   }
 
   showPopup = false;
-  selectedPostId: number | null = null;
+  selectedPostId: number = 0;
 
   openPopup(postId: number) {
     this.selectedPostId = postId;
     this.showPopup = true;
+    console.log(postId);
   }
 
   closePopup() {
     this.showPopup = false;
-    this.selectedPostId = null;
+    this.selectedPostId = 0;
   }
 
   addPost() {

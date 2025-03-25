@@ -1,8 +1,11 @@
-import {UsersDTO} from "./users-dto";
+import {CommentDTO} from "./comment-dto";
 
 export interface PostDTO {
   id: number;
   topic: string;
-  allowedUsers: UsersDTO[];
-  author: UsersDTO;
+  author: {
+    id: number;
+    username: string;
+  };
+  comments: CommentDTO[];
 }
